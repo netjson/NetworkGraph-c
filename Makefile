@@ -1,14 +1,18 @@
 CFLAGS+= -ljson-c
+LDFLAGS = -shared -Wl,-soname,$(TARGET).so
+TARGET = networkgraph-c
+$(TARGET):
+	$(CC) -shared -fPIC -o build/$(TARGET).so src/graph.c src/lib/cJSON.c $(CFLAGS) $(LDFLAGS)
 
-networkgraph-c:
-	$(CC) -shared -fPIC -o build/networkgraph-c.so src/graph.c $(CFLAGS)
+test: networkgraph-c
+	$(CC) -o test/test1 test/stupidtest.c src/graph.c src/lib/cJSON.c $(CFLAGS)
 
 clean:
-	rm src/*.o
 	rm build/*
 
 install:
-	cp build/networkgraph-c.so /usr/lib/
+	cp build/$(TARGET).so /usr/lib/
+	cp src/graph.h /usr/include/
 
 uninstall:
-	rm -f /usr/lib/networkgraph-c.so
+	rm -f /usr/lib/$(TARGET).so

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../src/graph.h"
 int main(){
-  struct topology *topo = _init_topo(0);
+  struct ng_topology *topo = _init_topo(0);
   add_node(topo, "1");
   add_node(topo, "2");
   add_node(topo, "3");
@@ -11,5 +11,6 @@ int main(){
   add_neigh(topo, "3", "4", 1.0);
   add_neigh(topo, "4", "1", 1.0);
   add_neigh(topo, "2", "4", 1.0);
-  printf("%s\n", compose_netjson(topo));
+  char* json = compose_netjson2(topo);
+  printf("%s\n", json);
 }
